@@ -195,3 +195,39 @@ let rec permutation = function
         let picked = List.nth xs n in
         let rest = remove_at n xs in
         picked :: permutation rest
+
+
+(* (* 26 - generate the combinations of k distinct objects chosen from the n elements of a list *) *)
+(* let rec extract k = function *)
+(*     (* | xs when length xs < k -> *) *)
+(*     (*         raise Failure ( *) *)
+(*     (*             "cannot choose " ^ string_of_int k ^ *) *)
+(*     (*             " in list of length " ^ string_of_int (length xs) *) *)
+(*     (*         ) *) *)
+(*     | xs when length xs == k -> [xs] *)
+(*     | x :: xs ->  *)
+(*         let sub_combinations = extract xs in *)
+
+
+(* 27 - group the elements of a set into disjoint subsets *)
+
+
+(* 28 - sorting a list of lists according to length of sublists *)
+let rec length_sort : ('a list list -> 'a list list) =
+    List.sort (fun xs ys -> compare (length xs) (length ys))
+
+
+let rec frequency_sort xs : ('a list list -> 'a list list) =
+    let counter = Hashtbl.create 1 in
+    let counter_func ys =
+        let l = (length ys) in
+        match Hashtbl.find_opt counter l with
+        | Some n -> Hashtbl.replace counter l (n + 1)
+        | None -> Hashtbl.add counter l 1
+    in
+    List.iter counter_func xs;;
+    let sort_func xs ys =
+        let xs_freq = Hashtbl.find (length xs) in
+        let ys_freq = Hashtbl.find (length ys) in
+        compare xs_freq ys_freq
+    List.sort sort_func xs
